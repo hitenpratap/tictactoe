@@ -1,0 +1,20 @@
+# docker-compose.yaml
+
+services:
+  tictactoe:
+    # Specifies the name for the container image that will be built.
+    image: tic-tac-toe-go
+    
+    # Tells Docker Compose to build the image using the Dockerfile
+    # in the current directory ('.').
+    build: .
+    
+    # The name of the container when it's running.
+    container_name: tictactoe_game
+    
+    # These two options are crucial for making an interactive
+    # terminal application work correctly inside Docker.
+    # 'stdin_open' keeps STDIN open (like '-i' in 'docker run').
+    # 'tty' allocates a pseudo-TTY (like '-t' in 'docker run').
+    stdin_open: true
+    tty: true
