@@ -29,20 +29,20 @@ const (
 
 // model represents the state of our Tic-Tac-Toe game.
 type model struct {
-	board         [3][3]string // Represents the 3x3 game board
-	cursorX       int          // The cursor's X position (column)
-	cursorY       int          // The cursor's Y position (row)
-	player        string       // The current player ("X" or "O")
-	winner        string       // The winner of the game, if any
-	isDraw        bool         // True if the game is a draw
-	player1Name   string
-	player2Name   string
-	player1Score  int
-	player2Score  int
-	inputs        []textinput.Model
-	focusIndex    int
-	gameState     gameState
-	winningCells  []struct{ x, y int }
+	board        [3][3]string // Represents the 3x3 game board
+	cursorX      int          // The cursor's X position (column)
+	cursorY      int          // The cursor's Y position (row)
+	player       string       // The current player ("X" or "O")
+	winner       string       // The winner of the game, if any
+	isDraw       bool         // True if the game is a draw
+	player1Name  string
+	player2Name  string
+	player1Score int
+	player2Score int
+	inputs       []textinput.Model
+	focusIndex   int
+	gameState    gameState
+	winningCells []struct{ x, y int }
 }
 
 // initialModel creates the initial state of the game.
@@ -53,14 +53,14 @@ func initialModel() model {
 			{" ", " ", " "},
 			{" ", " ", " "},
 		},
-		cursorX:     0,
-		cursorY:     0,
-		player:      "X",
-		winner:      "",
-		isDraw:      false,
-		gameState:   nameInput,
-		inputs:      make([]textinput.Model, 2),
-		focusIndex:  0,
+		cursorX:      0,
+		cursorY:      0,
+		player:       "X",
+		winner:       "",
+		isDraw:       false,
+		gameState:    nameInput,
+		inputs:       make([]textinput.Model, 2),
+		focusIndex:   0,
 		winningCells: []struct{ x, y int }{},
 	}
 
