@@ -44,7 +44,12 @@ test:
 	@echo "Running tests and generating coverage..."
 	$(GO_TEST) -v ./... -coverprofile=coverage.out
 
-.PHONY: all build run test fmt clean docker-build docker-run docker-clean help coverage-report
+# Run tests and generate JUnit XML report
+test-report:
+	@echo "Running tests and generating JUnit XML report..."
+	$(GO_TEST) -v ./... | go-junit-report > test-results.xml
+
+.PHONY: all build run test fmt clean docker-build docker-run docker-clean help coverage-report test-report
 
 # Format the Go source code
 fmt:

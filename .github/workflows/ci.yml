@@ -27,6 +27,17 @@ jobs:
     - name: Test
       run: make test
 
+    - name: Install go-junit-report
+      run: go install github.com/jstemmer/go-junit-report@latest
+
+    - name: Run tests and generate report
+      run: make test-report
+
+    - name: Upload test results to Codecov
+      uses: codecov/test-results-action@v1
+      with:
+        files: ./test-results.xml
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       with:
