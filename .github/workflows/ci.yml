@@ -35,6 +35,9 @@ jobs:
    - name: Run tests and generate report
      run: make test-report
 
+   - name: Display test results XML
+     run: cat test-results.xml
+
    - name: Upload test results to Codecov
      uses: codecov/test-results-action@v1
      with:
