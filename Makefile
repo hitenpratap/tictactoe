@@ -41,8 +41,10 @@ run:
 
 # Run the unit tests
 test:
-	@echo "Running tests..."
-	$(GO_TEST) -v ./...
+	@echo "Running tests and generating coverage..."
+	$(GO_TEST) -v ./... -coverprofile=coverage.out
+
+.PHONY: all build run test fmt clean docker-build docker-run docker-clean help coverage-report
 
 # Format the Go source code
 fmt:
