@@ -15,6 +15,8 @@ GO_BUILD=$(GO) build
 GO_RUN=$(GO) run
 # Go test command
 GO_TEST=$(GO) test
+# Go format command
+GO_FMT=$(GO) fmt
 # Go clean command
 GO_CLEAN=$(GO) clean
 
@@ -22,7 +24,7 @@ GO_CLEAN=$(GO) clean
 # Default Docker Compose command
 DOCKER_COMPOSE=docker-compose
 
-.PHONY: all build run test clean docker-build docker-run docker-clean help
+.PHONY: all build run test fmt clean docker-build docker-run docker-clean help
 
 # The default target executed when you just run `make`
 all: build
@@ -41,6 +43,11 @@ run:
 test:
 	@echo "Running tests..."
 	$(GO_TEST) -v ./...
+
+# Format the Go source code
+fmt:
+	@echo "Formatting code..."
+	$(GO_FMT) ./...
 
 # Clean up the built binary
 clean:
@@ -69,6 +76,7 @@ help:
 	@echo "  make build          - Compiles the Go application"
 	@echo "  make run            - Runs the application locally"
 	@echo "  make test           - Runs the unit tests"
+	@echo "  make fmt            - Formats the Go source code"
 	@echo "  make clean          - Removes the compiled binary"
 	@echo "  make docker-build   - Builds the Docker image"
 	@echo "  make docker-run     - Builds and runs the application in Docker"

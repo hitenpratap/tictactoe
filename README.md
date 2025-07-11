@@ -1,5 +1,8 @@
 # Go Tic-Tac-Toe (Terminal Edition)
 
+[![Go CI](https://github.com/hitenpratap/tictactoe/actions/workflows/ci.yml/badge.svg)](https://github.com/hitenpratap/tictactoe/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/hitenpratap/tictactoe/branch/master/graph/badge.svg)](https://codecov.io/gh/hitenpratap/tictactoe)
+
 A classic Tic-Tac-Toe game built to run in your terminal, developed using Go and the charming Bubble Tea TUI framework. This project is fully containerized with Docker for easy setup and deployment.
 
 ![Screenshot of Tic-Tac-Toe Game](/assets/img/demo.jpeg)
@@ -119,6 +122,12 @@ To run the suite of unit tests for the game logic:
 
 ```sh
 make test
+```
+
+To format the code using `go fmt`:
+
+```sh
+make fmt
 ```
 
 Alternatively, you can run the tests manually with the Go tool:

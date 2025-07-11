@@ -95,7 +95,7 @@ func TestCheckWinner(t *testing.T) {
 
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
-			got := checkWinner(tc.board, tc.player)
+			got, _ := checkWinner(tc.board, tc.player)
 			if got != tc.want {
 				t.Errorf("checkWinner() = %v, want %v", got, tc.want)
 			}
@@ -140,6 +140,7 @@ func TestCheckDraw(t *testing.T) {
 // TestUpdatePlayerMove tests the core game logic of making a move.
 func TestUpdatePlayerMove(t *testing.T) {
 	m := initialModel()
+	m.gameState = gamePlaying // Set the game state to playing
 	var updatedModel tea.Model
 
 	// Player X makes a move at (0, 0)
@@ -177,6 +178,7 @@ func TestUpdatePlayerMove(t *testing.T) {
 // TestUpdateCursorMovement tests that the cursor moves correctly.
 func TestUpdateCursorMovement(t *testing.T) {
 	m := initialModel()
+	m.gameState = gamePlaying // Set the game state to playing
 	var updatedModel tea.Model
 
 	// Move down
@@ -254,6 +256,7 @@ func TestUpdateQuit(t *testing.T) {
 // TestUpdateWinCondition checks that the game correctly identifies a winner.
 func TestUpdateWinCondition(t *testing.T) {
 	m := initialModel()
+	m.gameState = gamePlaying // Set the game state to playing
 	m.board = [3][3]string{
 		{"X", "X", " "},
 		{"O", "O", " "},
@@ -274,6 +277,7 @@ func TestUpdateWinCondition(t *testing.T) {
 // TestUpdateDrawCondition checks that the game correctly identifies a draw.
 func TestUpdateDrawCondition(t *testing.T) {
 	m := initialModel()
+	m.gameState = gamePlaying // Set the game state to playing
 	m.board = [3][3]string{
 		{"X", "O", "X"},
 		{"X", "O", "O"},
@@ -297,6 +301,7 @@ func TestUpdateDrawCondition(t *testing.T) {
 // TestUpdateResetAfterWin tests that the game resets after a win.
 func TestUpdateResetAfterWin(t *testing.T) {
 	m := initialModel()
+	m.gameState = gamePlaying // Set the game state to playing
 	m.winner = "X"
 
 	updatedModel, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
@@ -317,6 +322,7 @@ func TestUpdateResetAfterWin(t *testing.T) {
 // TestUpdateResetAfterDraw tests that the game resets after a draw.
 func TestUpdateResetAfterDraw(t *testing.T) {
 	m := initialModel()
+	m.gameState = gamePlaying // Set the game state to playing
 	m.isDraw = true
 
 	updatedModel, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
@@ -337,6 +343,7 @@ func TestUpdateResetAfterDraw(t *testing.T) {
 // TestUpdateAlternateKeys tests alternate key bindings for controls.
 func TestUpdateAlternateKeys(t *testing.T) {
 	m := initialModel()
+	m.gameState = gamePlaying // Set the game state to playing
 	var updatedModel tea.Model
 
 	// 'k' for up
@@ -387,30 +394,46 @@ func TestUpdateAlternateKeys(t *testing.T) {
 
 // TestView checks the rendered output of the model's View function.
 func TestView(t *testing.T) {
-	t.Run("Initial view", func(t *testing.T) {
+	t.Run("Name input view", func(t *testing.T) {
 		m := initialModel()
+		view := m.View()
+
+		if !contains(view, "Enter Player Names") {
+			t.Errorf("View does not contain 'Enter Player Names'")
+		}
+	})
+
+	t.Run("Game playing view", func(t *testing.T) {
+		m := initialModel()
+		m.gameState = gamePlaying
+		m.player1Name = "P1"
+		m.player2Name = "P2"
 		view := m.View()
 
 		if !contains(view, "Tic-Tac-Toe") {
 			t.Errorf("View does not contain 'Tic-Tac-Toe'")
 		}
-		if !contains(view, "Player X's turn") {
-			t.Errorf("View does not contain 'Player X's turn'")
+		if !contains(view, "P1's turn (X)") {
+			t.Errorf("View does not contain 'P1's turn (X)'")
 		}
 	})
 
 	t.Run("Win view", func(t *testing.T) {
 		m := initialModel()
+		m.gameState = gamePlaying
+		m.player1Name = "P1"
+		m.player2Name = "P2"
 		m.winner = "O"
 		view := m.View()
 
-		if !contains(view, "Player O wins!") {
-			t.Errorf("View does not contain 'Player O wins!'")
+		if !contains(view, "P2 wins!") {
+			t.Errorf("View does not contain 'P2 wins!'")
 		}
 	})
 
 	t.Run("Draw view", func(t *testing.T) {
 		m := initialModel()
+		m.gameState = gamePlaying
 		m.isDraw = true
 		view := m.View()
 
@@ -421,6 +444,7 @@ func TestView(t *testing.T) {
 
 	t.Run("View with markers", func(t *testing.T) {
 		m := initialModel()
+		m.gameState = gamePlaying
 		m.board[0][0] = "X"
 		m.board[1][1] = "O"
 		view := m.View()
